@@ -1,0 +1,5 @@
+services:
+  lieferantenservice:
+    build: .
+  rabbtmq:
+    image: rabbitmq:3.13
