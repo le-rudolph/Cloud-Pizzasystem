@@ -1,11 +1,8 @@
 from pydantic import BaseModel
 
-
-class Product(BaseModel):
-    name: str
-    price: int
-    size: str
+from .product import Product
 
 
 class Order(BaseModel):
     products: list[Product]
+    total: int

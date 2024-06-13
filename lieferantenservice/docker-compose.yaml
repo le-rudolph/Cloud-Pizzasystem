@@ -3,9 +3,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-  queue:
+    environment:
+      - QUEUE_HOST=pizza-queue
+      - QUEUE_NAME=order
+      - QUEUE_USER=guest
+      - QUEUE_PASS=guest
+      # - PYTHONUNBUFFERED=1
+  pizza-queue:
     image: rabbitmq:3.13
-    container_name: pizza-queue
+    # expose:
+    #   - 5672
+    ports:
+      - "5672:5672"
   mongo:
     image: mongo
     # restart: always
