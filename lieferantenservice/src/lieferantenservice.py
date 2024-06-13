@@ -1,6 +1,7 @@
 import pika
+import os
 
-QUEUE_HOST = 'localhost'
+QUEUE_HOST = os.environ["QUEUE_HOST"]
 
 
 def receive_order(channel, method, properties, body):
@@ -9,7 +10,7 @@ def receive_order(channel, method, properties, body):
 
 
 def main():
-    print("connecting to queue")
+    print(f"connecting to queue at {QUEUE_HOST}")
     connection = None
     retries = 5
     while retries > 0:
@@ -22,7 +23,7 @@ def main():
 
     if connection is None:
         raise RuntimeError("could not connect to queue")
-        
+
     channel = connection.channel()
 
     channel.queue_declare(
