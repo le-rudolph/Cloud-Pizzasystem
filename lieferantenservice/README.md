@@ -28,7 +28,7 @@
 
 ```json
 {
-    "Id": "666d77ef367eda697f99e3c5",
+    "Id": 7,
     "Order": {
         "Id": 7,
         "Products": [
@@ -49,4 +49,4 @@
 }
 ```
 
-- ``Id`` von mongo db? Oder gleiche ``Id`` wie ``Order``?
+- ``Id`` gleiche ``Id`` wie ``Order``? Oder von mongo db?

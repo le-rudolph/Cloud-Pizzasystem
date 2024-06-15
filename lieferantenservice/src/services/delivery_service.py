@@ -12,8 +12,11 @@ from models.delivery import Delivery
 def deliver_order(order: Order):
     delivery_time = get_random_delivery_time()
 
-    delivery = Delivery(Order=order, Delivery_time=delivery_time)
-    delivery.Id = mongo_service.insert_delivery(delivery=delivery)
+    delivery = Delivery(Id=order.Id, Order=order, Delivery_time=delivery_time)
+    mongo_service.insert_delivery(delivery=delivery)
+
+    delivery_from_db = mongo_service.find_delivery(delivery.Id)
+    logger.info(f"delivery in db: {delivery_from_db}")
 
     deliver_thread = threading.Timer(
         interval=delivery_time, function=finish_delivery, kwargs={"delivery": delivery})

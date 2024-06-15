@@ -2,6 +2,7 @@ import os
 from time import sleep
 import pymongo
 
+from models.order import Order
 from models.delivery import Delivery
 from .logger_service import logger
 
@@ -28,3 +29,14 @@ def insert_delivery(delivery: Delivery):
     result = delivery_collection.insert_one(delivery.model_dump())
     logger.info(f"inserted delivery with id {result.inserted_id}")
     return str(result.inserted_id)
+
+
+def find_delivery(id: int):
+    result = delivery_collection.find_one({"Id": id})
+    return result
+
+
+def find_deliveries():
+    result = delivery_collection.find()
+    for delivery in result:
+        yield delivery

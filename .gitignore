@@ -149,3 +149,4 @@ cython_debug/
 # misc
 lieferantenservice/src/test_receive.py
 lieferantenservice/src/test_send.py
+lieferantenservice/src/test_db.py
