@@ -1,40 +1,52 @@
 # Lieferantenservice
 
-Form der Bestellungen Beispiel:
+## Form der Bestellungen Beispiel
 
 ```json
 {
-    "products": [
+    "Id": 7,
+    "Products": [
         {
-            "name": "salami pizza",
-            "quantity": 2
+            "Name": "salami pizza",
+            "Size": "m",
+            "Quantity": 2
         },
         {
-            "name": "pizza hawaii",
-            "quantity": 12
+            "Name": "pizza hawaii",
+            "Size": "l",
+            "Quantity": 12
         }
     ],
-    "total": 42
+    "Total": 42
 }
 ```
 
-Form der erledigten Lieferung Beispiel:
+- optional ``"Cash_payment": bool``?
+- Barzahlung implizit über Existenz von ``"Total"``?
+
+## Form der erledigten Lieferung Beispiel
 
 ```json
 {
+    "Id": "666d77ef367eda697f99e3c5",
     "Order": {
-        "products": [
+        "Id": 7,
+        "Products": [
             {
-                "name": "salami pizza",
-                "quantity": 2
+                "Name": "salami pizza",
+                "Size": "m",
+                "Quantity": 2
             },
             {
-                "name": "pizza hawaii",
-                "quantity": 12
+                "Name": "pizza hawaii",
+                "Size": "l",
+                "Quantity": 12
             }
         ],
-        "total": 42
+        "Total": 42
     },
-    "Delivery_time": 31
+    "Delivery_time": 47
 }
 ```
+
+- ``Id`` von mongo db? Oder gleiche ``Id`` wie ``Order``?
