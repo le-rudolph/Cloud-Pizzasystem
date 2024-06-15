@@ -34,3 +34,5 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+terraform-azure-config/azure_app_credentials.txt
+terraform-azure-config/credentials.tf
