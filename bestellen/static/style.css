@@ -1,0 +1,101 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    font-family: sans-serif;
+}
+
+html {
+    height: 100vh;
+    background: url("/static/pizza.jpg") fixed;
+    background-size: cover;
+
+    font-size: 12pt;
+}
+
+.content {
+    margin: 0 auto;
+    max-width: min(1200px, 100%);
+    padding: 2.5em;
+}
+
+header {
+    background: firebrick;
+    color: white;
+}
+
+input {
+    padding: 0.25em;
+}
+
+main {
+    h2 {
+        color: firebrick;
+    }
+
+    .content {
+        background: rgba(200, 200, 200,0.5);
+        backdrop-filter: blur(10px);
+        padding-bottom: 8em;
+    }
+}
+
+#menu {
+    display: grid;
+    grid-template-columns: auto 7em 7em 7em;
+
+    * {
+        padding: .25em;
+    }
+
+    .size {
+        grid-column-start: 2;
+        grid-column-end: 5;
+        text-align: center;
+    }
+
+    .head {
+        font-size: 1.1em;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .price {
+        text-align: right;
+    }
+
+    div {
+        text-align: right;
+    }
+
+    div input {
+        width: 100%;
+    }
+
+    input[type=submit] {
+        grid-column: 1/5;
+        padding: 1em;
+        margin: 1em;
+    }
+}
+
+#progress {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    * {
+        margin: 0.24em;
+    }
+
+    span {
+        font-size: 1.25em;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    progress {
+        grid-column: 1/6;
+        height: 1.5em;
+    }
+}

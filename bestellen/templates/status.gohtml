@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="15">
+
+    <title>Bestellstatus - Pizza in the clouds</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="content">
+            <h1>Pizza in the clouds</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="content">
+            <h2>Deine Bestellung</h2>
+
+            <div id="progress">
+                <span>Erstellt</span>
+                <span>In der Küche</span>
+                <span>Zubereitet</span>
+                <span>In Zustellung</span>
+                <span>Bei dir</span>
+
+                <progress value="{{ .Status }}" max="5"></progress>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
