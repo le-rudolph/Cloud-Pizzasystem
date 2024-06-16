@@ -4,6 +4,6 @@ from .order import Order
 
 
 class Delivery(BaseModel):
-    Id: int
+    Id: str | None = None
     Order: Order
     Delivery_time: int

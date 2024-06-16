@@ -26,12 +26,12 @@ delivery_collection = delivery_db[DELIVERY_COLLECTION]
 
 
 def insert_delivery(delivery: Delivery):
-    result = delivery_collection.insert_one(delivery.model_dump())
+    result = delivery_collection.insert_one(delivery.model_dump(exclude={"id"}))
     logger.info(f"inserted delivery with id {result.inserted_id}")
     return str(result.inserted_id)
 
 
-def find_delivery(id: int):
+def find_delivery(id: str):
     result = delivery_collection.find_one({"Id": id})
     return result
 

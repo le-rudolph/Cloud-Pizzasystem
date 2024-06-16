@@ -4,6 +4,6 @@ from .product import Product
 
 
 class Order(BaseModel):
-    Id: int
+    Id: str
     Products: list[Product]
     Total: int
