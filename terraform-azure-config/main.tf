@@ -126,7 +126,7 @@ resource "azurerm_managed_disk" "pizza" {
   resource_group_name  = azurerm_resource_group.rg.name
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "1024"
+  disk_size_gb         = "10"
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "pizza" {
