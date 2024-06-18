@@ -1,10 +1,12 @@
 # Lieferantenservice
 
+Nimmt Orders aus der `order` Queue entgegen und bestätigt die Zustellung eine Weile später über eine zweite `delivery` Queue.
+
 ## Form der Bestellungen Beispiel
 
 ```json
 {
-    "Id": 7,
+    "Id": "ljkdrng45jdfngj4",
     "Products": [
         {
             "Name": "salami pizza",
@@ -21,16 +23,13 @@
 }
 ```
 
-- optional ``"Cash_payment": bool``?
-- Barzahlung implizit über Existenz von ``"Total"``?
-
 ## Form der erledigten Lieferung Beispiel
 
 ```json
 {
-    "Id": 7,
+    "Id": "435jhb4h6gkj456",
     "Order": {
-        "Id": 7,
+        "Id": "ljkdrng45jdfngj4",
         "Products": [
             {
                 "Name": "salami pizza",
@@ -48,5 +47,3 @@
     "Delivery_time": 47
 }
 ```
-
-- ``Id`` gleiche ``Id`` wie ``Order``? Oder von mongo db?

@@ -67,6 +67,11 @@ def setup_consumer(callback):
 
 
 def start_listening():
+    """Start listening on order queue. Main loop of the service is here.
+
+    Raises:
+        RuntimeError: Raises error, if queue is not connected.
+    """
     global channel, connection, lock
     if channel is not None:
         logger.info(f"listening for orders on {QUEUE_NAME_INCOMING}")
@@ -84,6 +89,15 @@ def start_listening():
 
 
 def receive_message(channel, method, properties: pika.BasicProperties, body):
+    """Callback for consuming messages from the queue.
+
+    Args:
+        channel: queue channel
+        method: method
+        properties (pika.BasicProperties): properties
+        body: body
+    """
+
     if properties.type != RECEIVING_MESSAGE_TYPE:
         logger.warning("received wrong message type, skipping")
         return
@@ -102,6 +116,14 @@ def receive_message(channel, method, properties: pika.BasicProperties, body):
 
 
 def send_message(body: dict, message_id: str = "", message_type: str = ""):
+    """Send messages to the queue.
+
+    Args:
+        body (dict): Dict to send as JSON.
+        message_id (str, optional): Message ID. Defaults to "".
+        message_type (str, optional): Message type. Defaults to "".
+    """
+
     global channel, sending_properties, lock
     if channel is not None:
         body_string = json.dumps(body)
