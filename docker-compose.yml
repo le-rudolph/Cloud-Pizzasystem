@@ -1,13 +1,30 @@
-
 services:
+
+  lieferantenservice:
+    build:
+      context: /lieferantenservice
+      dockerfile: Dockerfile
+    environment:
+      # queue setup
+      - QUEUE_HOST=q
+      - QUEUE_NAME=order
+      - QUEUE_USER=guest
+      - QUEUE_PASS=guest
+      # MongoDB credentials
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=root
+      - MONGO_PASS=example
+
   mongo:
-    image: mongo
-    # restart: always
+    image: mongo:7.0.11
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-    network_mode: host
 
   q:
-    image: rabbitmq
-    network_mode: host
+    image: rabbitmq:3.13
+    ports:
+      - "5672:5672"

@@ -1,5 +1,6 @@
 import os
 from time import sleep
+from bson import ObjectId
 import pymongo
 
 from models.order import Order
@@ -26,13 +27,14 @@ delivery_collection = delivery_db[DELIVERY_COLLECTION]
 
 
 def insert_delivery(delivery: Delivery):
-    result = delivery_collection.insert_one(delivery.model_dump(exclude={"id"}))
+    result = delivery_collection.insert_one(
+        delivery.model_dump(exclude={"Id"}))
     logger.info(f"inserted delivery with id {result.inserted_id}")
     return str(result.inserted_id)
 
 
 def find_delivery(id: str):
-    result = delivery_collection.find_one({"Id": id})
+    result = delivery_collection.find_one({"_id": ObjectId(id)})
     return result
 
 
