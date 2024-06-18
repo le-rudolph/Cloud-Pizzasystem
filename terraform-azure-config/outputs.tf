@@ -10,6 +10,6 @@ output "subnet_name" {
   value = azurerm_subnet.pizza.name
 }
 
-# output "linux_virtual_machine_names" {
-#   value = [for s in azurerm_linux_virtual_machine.test : s.name[*]]
-# }
+output "linux_virtual_machine_names" {
+  value = [for s in azurerm_linux_virtual_machine.pizza : s.name[*]]
+}
