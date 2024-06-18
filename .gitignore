@@ -36,3 +36,4 @@ override.tf.json
 terraform.rc
 terraform-azure-config/azure_app_credentials.txt
 terraform-azure-config/credentials.tf
+terraform-azure-config/pizza_plan

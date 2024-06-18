@@ -100,13 +100,13 @@ resource "azurerm_linux_virtual_machine" "pizza" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts-gen2"
+    sku       = "22_04-lts"
     version   = "latest"
   }
 
   admin_ssh_key {
     username   = var.username
-    public_key = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
+    public_key = tls_private_key.pizza_ssh.public_key_openssh
   }
 
   os_disk {
