@@ -1,8 +1,8 @@
 .pizza-form {
     display: flex;
-        flex-direction: column;
-        width: 10rem;
-        gap: 10px;
+    flex-direction: column;
+    width: 10rem;
+    gap: 10px;
 }
 
 .form-input {
@@ -20,6 +20,6 @@
     flex-direction: column;
 }
 
-.pizza-container:nth-child(1) {
+.pizza-container .bold {
     font-weight: bold;
 }

@@ -20,6 +20,7 @@ function showPizza() {
                 const newDiv = document.createElement("div");
                 newDiv.classList.add("pizza-container")
                 const name = document.createElement("span");
+                name.className = "bold"
                 name.innerHTML = pizza;
                 const s = document.createElement("span");
                 if (spreis) s.innerHTML = "S: " + spreis;

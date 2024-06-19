@@ -9,10 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-const HOST = process.env.MONGO_HOST
-const PORT = process.env.MONGO_PORT
-const USER = process.env.MONGO_USER
-const PASS = process.env.MONGO_PASS
+const DB_HOST = process.env.MONGO_HOST
+const DB_PORT = process.env.MONGO_PORT
+const DB_USER = process.env.MONGO_USER
+const DB_PASS = process.env.MONGO_PASS
 
 app.get('/pizza', async (req, res) => {
   const allPizza = await Pizza.find();
@@ -40,7 +40,8 @@ app.post("/create_produkt", async (req, res) => {
 });
 
 const start = async () => {
-  await mongoose.connect('mongodb://' + HOST + ':' + PORT + '/pizza');
+  await mongoose.connect(`mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}`);
+  mongoose.connection.useDb("pizza")
 
   app.listen(port, () => {
     console.log(`Produktservice listening on port ${port}`);
