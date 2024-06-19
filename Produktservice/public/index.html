@@ -10,11 +10,11 @@
             document.getElementById("hinweis").style = "display: none;"
             document.getElementById("error").style = "display: none;"
 
-            data = {
-                name: form.name.value,
-                spreis: form.spreis.value,
-                mpreis: form.mpreis.value,
-                lpreis: form.lpreis.value
+            const data = {
+                Name: form.name.value,
+                S: form.spreis.value,
+                M: form.mpreis.value,
+                L: form.lpreis.value
             }
 
             fetch("/create_produkt", {
