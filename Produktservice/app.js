@@ -9,6 +9,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
+const HOST = process.env.MONGO_HOST
+const PORT = process.env.MONGO_PORT
+const USER = process.env.MONGO_USER
+const PASS = process.env.MONGO_PASS
+
 app.get('/pizza', async (req, res) => {
   const allPizza = await Pizza.find();
   console.log(allPizza);
@@ -35,7 +40,7 @@ app.post("/create_produkt", async (req, res) => {
 });
 
 const start = async () => {
-  await mongoose.connect('mongodb://mongo:27017/pizza');
+  await mongoose.connect('mongodb://' + HOST + ':' + PORT + '/pizza');
 
   app.listen(port, () => {
     console.log(`Produktservice listening on port ${port}`);
