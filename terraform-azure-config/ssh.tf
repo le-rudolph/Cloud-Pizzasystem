@@ -13,11 +13,11 @@ output "private_key_data" {
 }
 
 resource "local_file" "public_key" {
-  content  = public_key_data
+  content  = tls_private_key.pizza_ssh.public_key_pem
   filename = "ssh/public_key.pem"
 }
 
 resource "local_file" "private_key" {
-  content  = private_key_data
+  content  = tls_private_key.pizza_ssh.private_key_pem
   filename = "ssh/private_key.pem"
 }
