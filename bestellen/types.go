@@ -1,5 +1,7 @@
 package main
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 const (
 	StatusCreated = iota
 	StatusKitchen
@@ -21,6 +23,7 @@ type Count struct {
 }
 
 type Order struct {
+	ID       primitive.ObjectID `bson:"_id"`
 	Status   int
 	Price    int
 	Products map[string]Count

@@ -3,40 +3,52 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/rabbitmq/amqp091-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"html/template"
 	"io/fs"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
 	OrdersCollection = "Orders"
 )
 
-type server struct {
+type Server struct {
 	mux       http.ServeMux
 	templates *template.Template
 
 	db *mongo.Database
+	q  *amqp091.Connection
+
+	running             bool
+	eventHandlerTimeout time.Duration
+
+	qToDelivery   string
+	qFromDelivery string
 }
 
-func (s *server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+var _ http.Handler = (*Server)(nil)
+
+func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	s.mux.ServeHTTP(writer, request)
 }
 
-func (s *server) getProducts() map[string]Price {
+func (s *Server) getProducts() map[string]Price {
 	return map[string]Price{
 		"Pizza":  {S: 1000, M: 1200, L: 1550},
 		"Pommes": {S: 500, M: 800},
 	}
 }
 
-func (s *server) Index(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Index(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		if err := s.templates.ExecuteTemplate(w, "index.gohtml", s.getProducts()); err != nil {
 			panic(err)
@@ -86,6 +98,8 @@ func (s *server) Index(w http.ResponseWriter, r *http.Request) {
 			order.Products[meal] = product
 		}
 
+		order.ID = primitive.NewObjectID()
+
 		result, err := s.db.Collection(OrdersCollection).InsertOne(r.Context(), order)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -96,7 +110,34 @@ func (s *server) Index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *server) Status(w http.ResponseWriter, r *http.Request) {
+func (s *Server) RunEventHandlers() {
+	s.running = true
+	go func() {
+		for s.running {
+			err := s.MoveOrderToKitchen()
+			if err != nil {
+				log.Println("Error moving order to kitchen:", err)
+			}
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	go func() {
+		for s.running {
+			err := s.MoveOrderToDelivery()
+			if err != nil {
+				log.Println("Error moving order to delivery:", err)
+			}
+			time.Sleep(5 * time.Second)
+		}
+	}()
+}
+
+func (s *Server) StopEventHandlers() {
+	s.running = false
+}
+
+func (s *Server) Status(w http.ResponseWriter, r *http.Request) {
 	id := strings.SplitN(r.RequestURI, "/", 3)[2]
 	_id, _ := primitive.ObjectIDFromHex(id)
 	result := s.db.Collection(OrdersCollection).FindOne(r.Context(), bson.D{
@@ -115,13 +156,24 @@ func (s *server) Status(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NewServer(conf *Config, tmpl *template.Template, static fs.FS) http.Handler {
+func NewServer(conf *Config, tmpl *template.Template, static fs.FS) *Server {
 	db, err := mongo.Connect(context.Background(), options.Client().ApplyURI(conf.DatabaseUri))
 	if err != nil {
 		panic(err)
 	}
 
-	s := server{http.ServeMux{}, tmpl, db.Database(conf.DatabaseDb)}
+	q, err := amqp091.Dial(conf.QueueUri)
+	if err != nil {
+		panic(err)
+	}
+	s := Server{
+		http.ServeMux{},
+		tmpl, db.Database(conf.DatabaseDb),
+		q, false,
+		10 * time.Second,
+		conf.QueueOutgoing,
+		conf.QueueUpdates,
+	}
 	s.mux.Handle("/static/", http.FileServer(http.FS(static)))
 	s.mux.HandleFunc("/{$}", s.Index)
 	s.mux.HandleFunc("/status/{status}", s.Status)

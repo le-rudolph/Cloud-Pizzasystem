@@ -10,6 +10,9 @@ type Config struct {
 	DatabaseDb  string
 
 	ServerAddress string
+
+	QueueOutgoing string
+	QueueUpdates  string
 }
 
 func defaultConfig() *Config {
@@ -18,6 +21,9 @@ func defaultConfig() *Config {
 		"mongodb://root:example@localhost",
 		"Pizza",
 		"localhost:14621",
+
+		"order",
+		"delivery",
 	}
 }
 

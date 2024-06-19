@@ -29,8 +29,10 @@ func main() {
 	}
 
 	s := NewServer(conf, temp, static)
+	s.RunEventHandlers()
 	fmt.Println("Listening on http://" + conf.ServerAddress)
 	err = http.ListenAndServe(conf.ServerAddress, s)
+	s.StopEventHandlers()
 	if err != nil {
 		panic(err)
 	}
