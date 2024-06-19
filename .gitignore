@@ -1,2 +1,7 @@
-*/venv
+.vscode/*
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
 */node_modules

@@ -1,0 +1,6 @@
+__pycache__/
+
+# misc
+src/test_receive.py
+src/test_send.py
+src/test_db.py
