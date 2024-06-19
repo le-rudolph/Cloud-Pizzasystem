@@ -20,7 +20,7 @@ func defaultConfig() *Config {
 		"amqp://guest:guest@localhost:5672",
 		"mongodb://root:example@localhost",
 		"Pizza",
-		"localhost:14621",
+		"0.0.0.0:14621",
 
 		"order",
 		"delivery",
