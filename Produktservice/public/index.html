@@ -1,60 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="script.js"></script>
     <title>Produktservice</title>
-    <script>
-        function onSubmit(form, e) {
-            e.preventDefault();
-            document.getElementById("hinweis").style = "display: none;"
-            document.getElementById("error").style = "display: none;"
-
-            const data = {
-                Name: form.name.value,
-                S: form.spreis.value,
-                M: form.mpreis.value,
-                L: form.lpreis.value
-            }
-
-            fetch("/create_produkt", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then((res) => {
-                if (res.ok) {
-                    document.getElementById("hinweis").style="display: inherit;"
-                } else {
-                    document.getElementById("error").style = "display: inherit;"
-                }
-            })
-
-            return false;
-        }
-    </script>
 </head>
 <body>
     <h1>Produkt hinzufügen</h1>
-    <form onsubmit="onSubmit(this, event)" style="display: flex">
-        <label>
-            Produktname
-            <input name="name" type="text">
+    <form onsubmit="onSubmit(this, event)" class="pizza-form">
+        <label class="form-input">
+            <span>Produktname</span>
+            <input name="name" type="text" />
         </label>
-        <label>
-            S - Preis
-            <input name="spreis" type="number" min="0" step="1">
+        <label class="form-input">
+            <span>S - Preis</span>
+            <input name="spreis" type="number" min="0" step="1" />
         </label>
-        <label>
-            M - Preis
-            <input type="number" name="mpreis" min="0" step="1">
+        <label class="form-input">
+            <span>M - Preis</span>
+            <input type="number" name="mpreis" min="0" step="1" />
         </label>
-        <label>
-            L - Preis
-            <input type="number" name="lpreis" min="0" step="1">
+        <label class="form-input">
+            <span>L - Preis</span>
+            <input type="number" name="lpreis" min="0" step="1" />
         </label>
         <button type="submit">Produkt hinzufügen</button>
     </form>
-    <span id="hinweis" style="display: none;">Produkt wurde hinzugefügt</span>
-    <span id="error" style="display: none;">Es ist ein Fehler aufgetreten</span>
+    <span id="hinweis" style="display: none">Produkt wurde hinzugefügt</span>
+    <span id="error" style="display: none">Es ist ein Fehler aufgetreten</span>
+
+    <hr />
+
+    <div id="allPizza" class="all-pizza-container"></div>
 </body>
+
 </html>
