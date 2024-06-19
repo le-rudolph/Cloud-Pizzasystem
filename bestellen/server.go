@@ -131,6 +131,16 @@ func (s *Server) RunEventHandlers() {
 			time.Sleep(5 * time.Second)
 		}
 	}()
+
+	go func() {
+		for s.running {
+			err := s.ReceiveDeliveries()
+			if err != nil {
+				log.Println("Error receiving deliveries:", err)
+			}
+			time.Sleep(5 * time.Second)
+		}
+	}()
 }
 
 func (s *Server) StopEventHandlers() {
