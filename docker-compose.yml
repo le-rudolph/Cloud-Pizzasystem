@@ -1,5 +1,15 @@
 services:
 
+  bestellservice:
+    build:
+      context: ./bestellen
+      dockerfile: Dockerfile
+    environment:
+      - QUEUE_URI=amqp://guest:guest@q:5672
+      - DATABASE_URI=mongodb://root:example@mongo
+    ports:
+      - "127.0.0.1:14621:14621"
+
   produktservice:
     build:
       context: ./Produktservice
@@ -14,7 +24,7 @@ services:
 
   lieferantenservice:
     build:
-      context: /lieferantenservice
+      context: ./lieferantenservice
       dockerfile: Dockerfile
     environment:
       # queue setup
@@ -31,7 +41,7 @@ services:
   mongo:
     image: mongo:7.0.11
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -39,4 +49,4 @@ services:
   q:
     image: rabbitmq:3.13
     ports:
-      - "5672:5672"
+      - "127.0.0.1:5672:5672"

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza in the clouds</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="content">
+            <h1>Pizza in the clouds</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="content">
+            <h2>Bestellen</h2>
+
+            <form method="post">
+            <div id="menu">
+                <span class="head">
+                    Produkt
+                </span>
+                <span class="size head">Größe</span>
+
+                <span></span>
+                <span class="head">S</span>
+                <span class="head">M</span>
+                <span class="head">L</span>
+
+                {{ range $key, $value := . }}
+                    <span>{{ $key }}</span>
+                    <div><input type="number" name="{{ $key }}_S" min="0" value="0" {{if eq $value.S 0}}disabled{{ end }}><br> x <small>{{ ToEuro $value.S }} €</small></div>
+                    <div><input type="number" name="{{ $key }}_M" min="0" value="0" {{if eq $value.M 0}}disabled{{ end }}><br> x <small>{{ ToEuro $value.M }} €</small></div>
+                    <div><input type="number" name="{{ $key }}_L" min="0" value="0" {{if eq $value.L 0}}disabled{{ end }}><br> x <small>{{ ToEuro $value.L }} €</small></div>
+                {{ end }}
+
+                <input type="submit" value="BESTELLEN">
+            </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
