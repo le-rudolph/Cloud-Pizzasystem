@@ -2,11 +2,11 @@ services:
 
   lieferantenservice:
     build:
-      context: /lieferantenservice
+      context: .
       dockerfile: Dockerfile
     environment:
       # queue setup
-      - QUEUE_HOST=q
+      - QUEUE_HOST=pizza-queue
       - QUEUE_NAME=order
       - QUEUE_USER=guest
       - QUEUE_PASS=guest
@@ -16,6 +16,11 @@ services:
       - MONGO_USER=root
       - MONGO_PASS=example
 
+  pizza-queue:
+    image: rabbitmq:3.13
+    ports:
+      - "5672:5672"
+
   mongo:
     image: mongo:7.0.11
     ports:
@@ -23,8 +28,3 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
-  q:
-    image: rabbitmq:3.13
-    ports:
-      - "5672:5672"
