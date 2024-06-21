@@ -15,3 +15,15 @@ variable "username" {
   description = "The username for the local account that will be created on the new VM."
   default     = "pizza"
 }
+
+variable "control_node_setup_script" {
+  type        = string
+  description = "Path to the setup file to use on the vm."
+  default     = "./scripts/setup_control_node.sh"
+}
+
+variable "worker_node_setup_script" {
+  type        = string
+  description = "Path to the setup file to use on the vm."
+  default     = "./scripts/setup_worker_node.sh"
+}

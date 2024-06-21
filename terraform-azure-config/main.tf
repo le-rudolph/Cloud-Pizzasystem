@@ -136,3 +136,33 @@ resource "azurerm_virtual_machine_data_disk_attachment" "pizza" {
   lun                = "10"
   caching            = "ReadWrite"
 }
+
+resource "azurerm_virtual_machine_extension" "control_node_setup" {
+  virtual_machine_id = azurerm_linux_virtual_machine.pizza[0].id
+  name               = azurerm_linux_virtual_machine.pizza[0].hostname
+
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  protected_settings = <<PROT
+  {
+      "script": "${base64encode(file(var.control_node_setup_script))}"
+  }
+  PROT
+}
+
+resource "azurerm_virtual_machine_extension" "worker_node_setup" {
+  virtual_machine_id = azurerm_linux_virtual_machine.pizza[1].id
+  name               = azurerm_linux_virtual_machine.pizza[1].hostname
+
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  protected_settings = <<PROT
+  {
+      "script": "${base64encode(file(var.worker_node_setup_script))}"
+  }
+  PROT
+}
