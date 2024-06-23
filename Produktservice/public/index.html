@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="script.js"></script>
+    <title>Produktservice</title>
+</head>
+<body>
+    <h1>Produkt hinzufügen</h1>
+    <form onsubmit="onSubmit(this, event)" class="pizza-form">
+        <label class="form-input">
+            <span>Produktname</span>
+            <input name="name" type="text" />
+        </label>
+        <label class="form-input">
+            <span>S - Preis</span>
+            <input name="spreis" type="number" min="0" step="1" />
+        </label>
+        <label class="form-input">
+            <span>M - Preis</span>
+            <input type="number" name="mpreis" min="0" step="1" />
+        </label>
+        <label class="form-input">
+            <span>L - Preis</span>
+            <input type="number" name="lpreis" min="0" step="1" />
+        </label>
+        <button type="submit">Produkt hinzufügen</button>
+    </form>
+    <span id="hinweis" style="display: none">Produkt wurde hinzugefügt</span>
+    <span id="error" style="display: none">Es ist ein Fehler aufgetreten</span>
+
+    <hr />
+
+    <div id="allPizza" class="all-pizza-container"></div>
+</body>
+
+</html>

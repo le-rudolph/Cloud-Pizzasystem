@@ -10,6 +10,18 @@ services:
     ports:
       - "127.0.0.1:14621:14621"
 
+  produktservice:
+    build:
+      context: ./Produktservice
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=root
+      - MONGO_PASS=example
+
   lieferantenservice:
     build:
       context: ./lieferantenservice
