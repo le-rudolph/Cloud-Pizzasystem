@@ -9,75 +9,6 @@ resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
 }
 
-// virtual network for the cluster
-resource "random_pet" "azurerm_virtual_network_name" {
-  prefix = "vnet"
-}
-
-resource "azurerm_virtual_network" "pizza" {
-  name                = random_pet.azurerm_virtual_network_name.id
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-}
-
-// subnet in the virtual network
-resource "random_pet" "azurerm_subnet_name" {
-  prefix = "sub"
-}
-
-resource "azurerm_subnet" "pizza" {
-  name                 = random_pet.azurerm_subnet_name.id
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.pizza.name
-  address_prefixes     = ["10.0.2.0/24"]
-}
-
-resource "azurerm_public_ip" "pizza" {
-  name                = "publicIPForLB"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-}
-
-resource "azurerm_lb" "pizza" {
-  name                = "loadBalancer"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  frontend_ip_configuration {
-    name                 = "publicIPAddress"
-    public_ip_address_id = azurerm_public_ip.pizza.id
-  }
-}
-
-resource "azurerm_lb_backend_address_pool" "pizza" {
-  loadbalancer_id = azurerm_lb.pizza.id
-  name            = "BackEndAddressPool"
-}
-
-resource "azurerm_network_interface" "pizza" {
-  count               = 2
-  name                = "acctni${count.index}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  ip_configuration {
-    name                          = "pizzaIPConfig"
-    subnet_id                     = azurerm_subnet.pizza.id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
-
-resource "azurerm_availability_set" "avset" {
-  name                         = "avset"
-  location                     = azurerm_resource_group.rg.location
-  resource_group_name          = azurerm_resource_group.rg.name
-  platform_fault_domain_count  = 2
-  platform_update_domain_count = 2
-  managed                      = true
-}
-
 resource "random_pet" "azurerm_linux_virtual_machine_name" {
   prefix = "vm"
 }
@@ -90,12 +21,6 @@ resource "azurerm_linux_virtual_machine" "pizza" {
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.pizza[count.index].id]
   size                  = "Standard_A2_v2"
-
-  # Uncomment this line to delete the OS disk automatically when deleting the VM
-  # delete_os_disk_on_termination = true
-
-  # Uncomment this line to delete the data disks automatically when deleting the VM
-  # delete_data_disks_on_termination = true
 
   source_image_reference {
     publisher = "Canonical"
@@ -139,7 +64,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "pizza" {
 
 resource "azurerm_virtual_machine_extension" "control_node_setup" {
   virtual_machine_id = azurerm_linux_virtual_machine.pizza[0].id
-  name               = azurerm_linux_virtual_machine.pizza[0].hostname
+  name               = azurerm_linux_virtual_machine.pizza[0].name
 
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
@@ -154,7 +79,7 @@ resource "azurerm_virtual_machine_extension" "control_node_setup" {
 
 resource "azurerm_virtual_machine_extension" "worker_node_setup" {
   virtual_machine_id = azurerm_linux_virtual_machine.pizza[1].id
-  name               = azurerm_linux_virtual_machine.pizza[1].hostname
+  name               = azurerm_linux_virtual_machine.pizza[1].name
 
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
@@ -162,7 +87,7 @@ resource "azurerm_virtual_machine_extension" "worker_node_setup" {
 
   protected_settings = <<PROT
   {
-      "script": "${base64encode(file(var.worker_node_setup_script))}"
+      "script": "${base64encode(file("D:/Users/lenna/Documents/Studium/MasterINFM/Softwarearchitektur/Container/Cloud-Pizzasystem/terraform-azure-config/scripts/setup_worker_node.sh"))}"
   }
   PROT
 }
