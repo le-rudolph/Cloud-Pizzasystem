@@ -13,6 +13,8 @@ type Config struct {
 
 	QueueOutgoing string
 	QueueUpdates  string
+
+	ProductsUrl string
 }
 
 func defaultConfig() *Config {
@@ -24,6 +26,7 @@ func defaultConfig() *Config {
 
 		"order",
 		"delivery",
+		"http://localhost:3000",
 	}
 }
 
@@ -40,6 +43,12 @@ func ConfigFromEnvironment() *Config {
 	}
 	if addr, ok := os.LookupEnv("SERVER_ADDRESS"); ok {
 		conf.ServerAddress = addr
+	}
+	if addr, ok := os.LookupEnv("SERVER_ADDRESS"); ok {
+		conf.ServerAddress = addr
+	}
+	if url, ok := os.LookupEnv("PRODUCTS_URL"); ok {
+		conf.ProductsUrl = url
 	}
 	return conf
 }

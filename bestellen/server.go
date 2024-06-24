@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/rabbitmq/amqp091-go"
 	"go.mongodb.org/mongo-driver/bson"
@@ -9,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"html/template"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -33,6 +36,8 @@ type Server struct {
 
 	qToDelivery   string
 	qFromDelivery string
+
+	productsUrl string
 }
 
 var _ http.Handler = (*Server)(nil)
@@ -41,22 +46,40 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	s.mux.ServeHTTP(writer, request)
 }
 
-func (s *Server) getProducts() map[string]Price {
-	return map[string]Price{
-		"Pizza":  {S: 1000, M: 1200, L: 1550},
-		"Pommes": {S: 500, M: 800},
+func (s *Server) getProducts(ctx context.Context) map[string]Price {
+	req, err := http.NewRequestWithContext(ctx, "GET", s.productsUrl, nil)
+	if err != nil {
+		log.Println("Error getting products:", err)
+		return nil
 	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Println("Cannot do request:", resp)
+		return nil
+	}
+	var b bytes.Buffer
+	if _, err = io.Copy(&b, resp.Body); err != nil {
+		log.Println("Error reading body:", err)
+		return nil
+	}
+	var out map[string]Price
+	if err = json.Unmarshal(b.Bytes(), &out); err != nil {
+		log.Println("Cannot parse products response:", err)
+		return nil
+	}
+
+	return out
 }
 
 func (s *Server) Index(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		if err := s.templates.ExecuteTemplate(w, "index.gohtml", s.getProducts()); err != nil {
+		if err := s.templates.ExecuteTemplate(w, "index.gohtml", s.getProducts(r.Context())); err != nil {
 			panic(err)
 		}
 	} else {
 		r.ParseForm()
 
-		products := s.getProducts()
+		products := s.getProducts(r.Context())
 		order := Order{}
 		order.Products = make(map[string]Count)
 
@@ -166,15 +189,15 @@ func (s *Server) Status(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NewServer(conf *Config, tmpl *template.Template, static fs.FS) *Server {
+func NewServer(conf *Config, tmpl *template.Template, static fs.FS) (*Server, error) {
 	db, err := mongo.Connect(context.Background(), options.Client().ApplyURI(conf.DatabaseUri))
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	q, err := amqp091.Dial(conf.QueueUri)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	s := Server{
 		http.ServeMux{},
@@ -183,9 +206,10 @@ func NewServer(conf *Config, tmpl *template.Template, static fs.FS) *Server {
 		10 * time.Second,
 		conf.QueueOutgoing,
 		conf.QueueUpdates,
+		conf.ProductsUrl,
 	}
 	s.mux.Handle("/static/", http.FileServer(http.FS(static)))
 	s.mux.HandleFunc("/{$}", s.Index)
 	s.mux.HandleFunc("/status/{status}", s.Status)
-	return &s
+	return &s, nil
 }
