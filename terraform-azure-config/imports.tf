@@ -15,24 +15,24 @@
 #   id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
 # }
 
-import {
-  to = azurerm_lb_probe.lb_probe
-  id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
-}
+# import {
+#   to = azurerm_lb_probe.lb_probe
+#   id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
+# }
 
-import {
-  to = azurerm_lb_rule.control_ssh_rule
-  id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/ssh_test"
-}
-import {
-  to = azurerm_lb_rule.worker_ssh_rule
-  id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/ssh_worker"
-}
-import {
-  to = azurerm_lb_rule.worker_produktservice_rule
-  id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/pizza_produktservice"
-}
-import {
-  to = azurerm_lb_rule.worker_bestellservice_rule
-  id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/pizza_bestellservice"
-}
+# import {
+#   to = azurerm_lb_rule.control_ssh_rule
+#   id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/ssh_test"
+# }
+# import {
+#   to = azurerm_lb_rule.worker_ssh_rule
+#   id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/ssh_worker"
+# }
+# import {
+#   to = azurerm_lb_rule.worker_produktservice_rule
+#   id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/pizza_produktservice"
+# }
+# import {
+#   to = azurerm_lb_rule.worker_bestellservice_rule
+#   id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/pizza_bestellservice"
+# }
