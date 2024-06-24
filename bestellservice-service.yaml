@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: bestellservice
+  name: bestellservice
+spec:
+  ports:
+    - name: "14621"
+      port: 14621
+      targetPort: 14621
+  selector:
+    io.kompose.service: bestellservice
+status:
+  loadBalancer: {}

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: lieferantenservice
+  name: lieferantenservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: lieferantenservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: lieferantenservice
+    spec:
+      containers:
+        - env:
+            - name: MONGO_HOST
+              value: mongo
+            - name: MONGO_PASS
+              value: example
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_USER
+              value: root
+            - name: QUEUE_HOST
+              value: q
+            - name: QUEUE_NAME
+              value: order
+            - name: QUEUE_PASS
+              value: guest
+            - name: QUEUE_USER
+              value: guest
+          image: ghcr.io/le-rudolph/cloud-pizzasystem/lieferantenservice
+          name: lieferantenservice
+          resources: {}
+      restartPolicy: Always
+status: {}
