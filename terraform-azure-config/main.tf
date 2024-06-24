@@ -40,7 +40,6 @@ resource "azurerm_linux_virtual_machine" "pizza" {
     name                 = "myosdisk${count.index}"
   }
 
-  computer_name  = "hostname"
   admin_username = var.username
 }
 
@@ -62,7 +61,9 @@ resource "azurerm_virtual_machine_data_disk_attachment" "pizza" {
   caching            = "ReadWrite"
 }
 
+// execute setup scripts on vms 
 resource "azurerm_virtual_machine_extension" "control_node_setup" {
+  depends_on         = [azurerm_linux_virtual_machine.pizza[0]]
   virtual_machine_id = azurerm_linux_virtual_machine.pizza[0].id
   name               = azurerm_linux_virtual_machine.pizza[0].name
 
@@ -78,6 +79,7 @@ resource "azurerm_virtual_machine_extension" "control_node_setup" {
 }
 
 resource "azurerm_virtual_machine_extension" "worker_node_setup" {
+  depends_on         = [azurerm_linux_virtual_machine.pizza[1]]
   virtual_machine_id = azurerm_linux_virtual_machine.pizza[1].id
   name               = azurerm_linux_virtual_machine.pizza[1].name
 
@@ -87,7 +89,7 @@ resource "azurerm_virtual_machine_extension" "worker_node_setup" {
 
   protected_settings = <<PROT
   {
-      "script": "${base64encode(file("D:/Users/lenna/Documents/Studium/MasterINFM/Softwarearchitektur/Container/Cloud-Pizzasystem/terraform-azure-config/scripts/setup_worker_node.sh"))}"
+      "script": "${base64encode(file(var.worker_node_setup_script))}"
   }
   PROT
 }

@@ -39,109 +39,107 @@ resource "azurerm_lb" "pizza" {
   sku_tier            = "Regional"
   tags                = {}
   frontend_ip_configuration {
-    name                          = "publicIPAddress"
+    name                          = var.frontend_ip_configuration_name
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.pizza.id
   }
 }
 
-
-# __generated__ by Terraform from "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
+// probe to check vm health
 resource "azurerm_lb_probe" "lb_probe" {
   interval_in_seconds = 5
-  loadbalancer_id     = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
-  name                = "ssh_test"
+  loadbalancer_id     = azurerm_lb.pizza.id
+  name                = "health_probe"
   number_of_probes    = 1
   port                = 3500
   probe_threshold     = 1
   protocol            = "Tcp"
-  request_path        = null
 }
 
+// backend address pools for load balancer rules
 resource "azurerm_lb_backend_address_pool" "pizza" {
   loadbalancer_id = azurerm_lb.pizza.id
   name            = "BackEndAddressPool"
 }
 
 resource "azurerm_lb_backend_address_pool" "control_pool" {
-  loadbalancer_id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
+  loadbalancer_id = azurerm_lb.pizza.id
   name            = "control_pool"
 }
 
 resource "azurerm_lb_backend_address_pool" "worker_pool" {
-  loadbalancer_id = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
+  loadbalancer_id = azurerm_lb.pizza.id
   name            = "worker_pool"
 }
 
+// load balancer rules to map requests to cluster machines
+// ssh access rules
+resource "azurerm_lb_rule" "control_ssh_rule" {
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.control_pool.id]
+  backend_port                   = 22
+  disable_outbound_snat          = false
+  enable_floating_ip             = false
+  enable_tcp_reset               = false
+  frontend_ip_configuration_name = var.frontend_ip_configuration_name
+  frontend_port                  = 22
+  idle_timeout_in_minutes        = 4
+  load_distribution              = "SourceIPProtocol"
+  loadbalancer_id                = azurerm_lb.pizza.id
+  name                           = "ssh_control"
+  probe_id                       = azurerm_lb_probe.lb_probe.id
+  protocol                       = "Tcp"
+}
 
-# __generated__ by Terraform from "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/pizza_bestellservice"
+resource "azurerm_lb_rule" "worker_ssh_rule" {
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.worker_pool.id]
+  backend_port                   = 22
+  disable_outbound_snat          = false
+  enable_floating_ip             = false
+  enable_tcp_reset               = false
+  frontend_ip_configuration_name = var.frontend_ip_configuration_name
+  frontend_port                  = 23
+  idle_timeout_in_minutes        = 4
+  load_distribution              = "SourceIPProtocol"
+  loadbalancer_id                = azurerm_lb.pizza.id
+  name                           = "ssh_worker"
+  probe_id                       = azurerm_lb_probe.lb_probe.id
+  protocol                       = "Tcp"
+}
+
+// service access rules
 resource "azurerm_lb_rule" "worker_bestellservice_rule" {
-  backend_address_pool_ids       = ["/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/backendAddressPools/worker_pool"]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.worker_pool.id]
   backend_port                   = 14621
   disable_outbound_snat          = false
   enable_floating_ip             = false
   enable_tcp_reset               = false
-  frontend_ip_configuration_name = "publicIPAddress"
-  frontend_port                  = 81
+  frontend_ip_configuration_name = var.frontend_ip_configuration_name
+  frontend_port                  = 80
   idle_timeout_in_minutes        = 4
   load_distribution              = "SourceIPProtocol"
-  loadbalancer_id                = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
+  loadbalancer_id                = azurerm_lb.pizza.id
   name                           = "pizza_bestellservice"
-  probe_id                       = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
+  probe_id                       = azurerm_lb_probe.lb_probe.id
   protocol                       = "Tcp"
 }
 
-# __generated__ by Terraform from "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/ssh_test"
-resource "azurerm_lb_rule" "control_ssh_rule" {
-  backend_address_pool_ids       = ["/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/backendAddressPools/control_pool"]
-  backend_port                   = 22
-  disable_outbound_snat          = false
-  enable_floating_ip             = false
-  enable_tcp_reset               = false
-  frontend_ip_configuration_name = "publicIPAddress"
-  frontend_port                  = 22
-  idle_timeout_in_minutes        = 4
-  load_distribution              = "SourceIPProtocol"
-  loadbalancer_id                = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
-  name                           = "ssh_test"
-  probe_id                       = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
-  protocol                       = "Tcp"
-}
-
-# __generated__ by Terraform from "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/ssh_worker"
-resource "azurerm_lb_rule" "worker_ssh_rule" {
-  backend_address_pool_ids       = ["/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/backendAddressPools/worker_pool"]
-  backend_port                   = 22
-  disable_outbound_snat          = false
-  enable_floating_ip             = false
-  enable_tcp_reset               = false
-  frontend_ip_configuration_name = "publicIPAddress"
-  frontend_port                  = 23
-  idle_timeout_in_minutes        = 4
-  load_distribution              = "SourceIPProtocol"
-  loadbalancer_id                = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
-  name                           = "ssh_worker"
-  probe_id                       = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
-  protocol                       = "Tcp"
-}
-
-# __generated__ by Terraform from "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/loadBalancingRules/pizza_produktservice"
 resource "azurerm_lb_rule" "worker_produktservice_rule" {
-  backend_address_pool_ids       = ["/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/backendAddressPools/worker_pool"]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.worker_pool.id]
   backend_port                   = 3000
   disable_outbound_snat          = false
   enable_floating_ip             = false
   enable_tcp_reset               = false
-  frontend_ip_configuration_name = "publicIPAddress"
-  frontend_port                  = 80
+  frontend_ip_configuration_name = var.frontend_ip_configuration_name
+  frontend_port                  = 81
   idle_timeout_in_minutes        = 4
   load_distribution              = "SourceIPProtocol"
-  loadbalancer_id                = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
+  loadbalancer_id                = azurerm_lb.pizza.id
   name                           = "pizza_produktservice"
-  probe_id                       = "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer/probes/ssh_test"
+  probe_id                       = azurerm_lb_probe.lb_probe.id
   protocol                       = "Tcp"
 }
 
+// network interfaces for vms
 resource "azurerm_network_interface" "pizza" {
   count               = 2
   name                = "acctni${count.index}"

@@ -2,6 +2,8 @@
 # Please review these resources and move them into your main configuration files.
 
 # __generated__ by Terraform from "/subscriptions/3466a3af-b29e-40a9-b653-d18a7c1dd1af/resourceGroups/rg-useful-goblin/providers/Microsoft.Network/loadBalancers/loadBalancer"
+
+/*
 resource "azurerm_lb" "pizza" {
   edge_zone           = null
   location            = "germanywestcentral"
@@ -22,3 +24,5 @@ resource "azurerm_lb" "pizza" {
     zones                                              = []
   }
 }
+
+*/
