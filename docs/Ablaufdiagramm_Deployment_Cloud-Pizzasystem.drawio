@@ -1,0 +1,84 @@
+<mxfile host="app.diagrams.net" modified="2024-06-25T18:37:43.779Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0" etag="lML_aSuzCr2KyWyIwoYm" version="24.6.3" type="onedrive">
+  <diagram id="TfrmX3SfW7hvZv9Lq_rZ" name="Seite-1">
+    <mxGraphModel dx="2074" dy="1106" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-1" target="yc7V_O8TTnxGh_EpQG0f-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-1" value="Initialisieren von Terraform" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-2" target="yc7V_O8TTnxGh_EpQG0f-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-2" value="Abruf der Images" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-3" target="yc7V_O8TTnxGh_EpQG0f-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="730" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-3" value="Ausführung des Init-Scripts" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-7" target="yc7V_O8TTnxGh_EpQG0f-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-7" value="Installation des Master-Nodes" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-8" target="yc7V_O8TTnxGh_EpQG0f-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-8" value="Installation des Worker-Nodes" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-9" value="Freigeben der Services" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-10" target="yc7V_O8TTnxGh_EpQG0f-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-10" value="Planen der Infrastruktur" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-11" target="yc7V_O8TTnxGh_EpQG0f-20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="250" />
+              <mxPoint x="270" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-11" value="Anwenden des Terraform-Plans" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-20" target="yc7V_O8TTnxGh_EpQG0f-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-20" value="Erstellung der Infrastruktur" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=12 12;endArrow=none;endFill=0;" parent="1" target="yc7V_O8TTnxGh_EpQG0f-20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380.0999999999999" y="150" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-23" value="&lt;div&gt;Erstellen der Netzwerkressoucrem, VMs, LoadBalancer und entsprechenden Regeln.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Speichern des SSH-Keys auf der VM&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=23;align=left;spacingTop=0;spacingLeft=6;strokeColor=default;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" parent="1" vertex="1">
+          <mxGeometry x="290" y="150" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;dashed=1;dashPattern=12 12;" parent="1" source="yc7V_O8TTnxGh_EpQG0f-27" target="yc7V_O8TTnxGh_EpQG0f-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yc7V_O8TTnxGh_EpQG0f-27" value="Der Master-Node installiert über SSH-Zugriff auf der zweiten VM diese als Worker-Node" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;spacingLeft=6;strokeColor=default;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;size=22;" parent="1" vertex="1">
+          <mxGeometry x="690" y="195" width="180" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
