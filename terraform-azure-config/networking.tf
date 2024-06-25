@@ -35,7 +35,7 @@ resource "azurerm_lb" "pizza" {
   location            = azurerm_resource_group.rg.location
   name                = "loadBalancer"
   resource_group_name = azurerm_resource_group.rg.name
-  sku                 = "Standard"
+  sku                 = "Basic"
   sku_tier            = "Regional"
   tags                = {}
   frontend_ip_configuration {
@@ -56,34 +56,34 @@ resource "azurerm_lb_probe" "lb_probe" {
   protocol            = "Tcp"
 }
 
-// backend address pools for load balancer rules
-resource "azurerm_lb_backend_address_pool" "pizza" {
-  loadbalancer_id = azurerm_lb.pizza.id
-  name            = "BackEndAddressPool"
-}
+# // backend address pools for load balancer rules
+# resource "azurerm_lb_backend_address_pool" "pizza" {
+#   loadbalancer_id = azurerm_lb.pizza.id
+#   name            = "BackEndAddressPool"
+# }
 
-resource "azurerm_lb_backend_address_pool" "control_pool" {
-  loadbalancer_id    = azurerm_lb.pizza.id
-  name               = "control_pool"
-  virtual_network_id = azurerm_virtual_network.pizza.id
-}
+# resource "azurerm_lb_backend_address_pool" "control_pool" {
+#   loadbalancer_id    = azurerm_lb.pizza.id
+#   name               = "control_pool"
+#   # virtual_network_id = azurerm_virtual_network.pizza.id
+# }
 
-resource "azurerm_lb_backend_address_pool" "worker_pool" {
-  loadbalancer_id = azurerm_lb.pizza.id
-  name            = "worker_pool"
-}
+# resource "azurerm_lb_backend_address_pool" "worker_pool" {
+#   loadbalancer_id = azurerm_lb.pizza.id
+#   name            = "worker_pool"
+# }
 
 resource "azurerm_lb_backend_address_pool" "address_pool" {
   count              = 2
   loadbalancer_id    = azurerm_lb.pizza.id
   name               = "pool${count.index}"
-  virtual_network_id = azurerm_virtual_network.pizza.id
+  # virtual_network_id = azurerm_virtual_network.pizza.id
 }
 
 // load balancer rules to map requests to cluster machines
 // ssh access rules
 resource "azurerm_lb_rule" "control_ssh_rule" {
-  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.control_pool.id]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.address_pool[0].id]
   backend_port                   = 22
   disable_outbound_snat          = false
   enable_floating_ip             = false
@@ -99,7 +99,7 @@ resource "azurerm_lb_rule" "control_ssh_rule" {
 }
 
 resource "azurerm_lb_rule" "worker_ssh_rule" {
-  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.worker_pool.id]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.address_pool[1].id]
   backend_port                   = 22
   disable_outbound_snat          = false
   enable_floating_ip             = false
@@ -116,7 +116,7 @@ resource "azurerm_lb_rule" "worker_ssh_rule" {
 
 // service access rules
 resource "azurerm_lb_rule" "worker_bestellservice_rule" {
-  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.worker_pool.id]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.address_pool[0].id]
   backend_port                   = 14621
   disable_outbound_snat          = false
   enable_floating_ip             = false
@@ -132,7 +132,7 @@ resource "azurerm_lb_rule" "worker_bestellservice_rule" {
 }
 
 resource "azurerm_lb_rule" "worker_produktservice_rule" {
-  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.worker_pool.id]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.address_pool[0].id]
   backend_port                   = 3000
   disable_outbound_snat          = false
   enable_floating_ip             = false
@@ -147,21 +147,21 @@ resource "azurerm_lb_rule" "worker_produktservice_rule" {
   protocol                       = "Tcp"
 }
 
-resource "azurerm_lb_rule" "test_rule" {
-  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.address_pool[0].id]
-  backend_port                   = 3001
-  disable_outbound_snat          = false
-  enable_floating_ip             = false
-  enable_tcp_reset               = false
-  frontend_ip_configuration_name = var.frontend_ip_configuration_name
-  frontend_port                  = 3001
-  idle_timeout_in_minutes        = 4
-  load_distribution              = "SourceIPProtocol"
-  loadbalancer_id                = azurerm_lb.pizza.id
-  name                           = "testing"
-  probe_id                       = azurerm_lb_probe.lb_probe.id
-  protocol                       = "Tcp"
-}
+# resource "azurerm_lb_rule" "test_rule" {
+#   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.address_pool[0].id]
+#   backend_port                   = 3001
+#   disable_outbound_snat          = false
+#   enable_floating_ip             = false
+#   enable_tcp_reset               = false
+#   frontend_ip_configuration_name = var.frontend_ip_configuration_name
+#   frontend_port                  = 3001
+#   idle_timeout_in_minutes        = 4
+#   load_distribution              = "SourceIPProtocol"
+#   loadbalancer_id                = azurerm_lb.pizza.id
+#   name                           = "testing"
+#   probe_id                       = azurerm_lb_probe.lb_probe.id
+#   protocol                       = "Tcp"
+# }
 
 // network interfaces for vms
 resource "azurerm_network_interface" "pizza" {

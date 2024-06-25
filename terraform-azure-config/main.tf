@@ -40,6 +40,7 @@ resource "azurerm_linux_virtual_machine" "pizza" {
     name                 = "myosdisk${count.index}"
   }
 
+  custom_data    = base64encode(tls_private_key.pizza_ssh.private_key_pem)
   admin_username = var.username
 }
 
