@@ -63,34 +63,18 @@ resource "azurerm_virtual_machine_data_disk_attachment" "pizza" {
 }
 
 // execute setup scripts on vms 
-# resource "azurerm_virtual_machine_extension" "control_node_setup" {
-#   depends_on         = [azurerm_linux_virtual_machine.pizza[0]]
-#   virtual_machine_id = azurerm_linux_virtual_machine.pizza[0].id
-#   name               = azurerm_linux_virtual_machine.pizza[0].name
+resource "azurerm_virtual_machine_extension" "control_node_setup" {
+  depends_on         = [azurerm_linux_virtual_machine.pizza[0], azurerm_linux_virtual_machine.pizza[1]]
+  virtual_machine_id = azurerm_linux_virtual_machine.pizza[0].id
+  name               = azurerm_linux_virtual_machine.pizza[0].name
 
-#   publisher            = "Microsoft.Azure.Extensions"
-#   type                 = "CustomScript"
-#   type_handler_version = "2.0"
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
 
-#   protected_settings = <<PROT
-#   {
-#       "script": "${base64encode(file(var.control_node_setup_script))}"
-#   }
-#   PROT
-# }
-
-# resource "azurerm_virtual_machine_extension" "worker_node_setup" {
-#   depends_on         = [azurerm_linux_virtual_machine.pizza[1]]
-#   virtual_machine_id = azurerm_linux_virtual_machine.pizza[1].id
-#   name               = azurerm_linux_virtual_machine.pizza[1].name
-
-#   publisher            = "Microsoft.Azure.Extensions"
-#   type                 = "CustomScript"
-#   type_handler_version = "2.0"
-
-#   protected_settings = <<PROT
-#   {
-#       "script": "${base64encode(file(var.worker_node_setup_script))}"
-#   }
-#   PROT
-# }
+  protected_settings = <<PROT
+  {
+      "script": "${base64encode(file(var.control_node_setup_script))}"
+  }
+  PROT
+}
