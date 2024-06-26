@@ -5,3 +5,5 @@
 .history/
 terraform-azure-config/ssh/private_key.pem
 terraform-azure-config/ssh/public_key.pem
+
+*/node_modules

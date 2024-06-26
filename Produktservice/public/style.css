@@ -1,0 +1,25 @@
+.pizza-form {
+    display: flex;
+    flex-direction: column;
+    width: 10rem;
+    gap: 10px;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.all-pizza-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.pizza-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.pizza-container .bold {
+    font-weight: bold;
+}

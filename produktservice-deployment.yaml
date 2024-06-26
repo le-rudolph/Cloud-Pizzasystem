@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: produktservice
+  name: produktservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: produktservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: produktservice
+    spec:
+      containers:
+        - env:
+            - name: MONGO_HOST
+              value: mongo
+            - name: MONGO_PASS
+              value: example
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_USER
+              value: root
+          image: ghcr.io/le-rudolph/cloud-pizzasystem/produktservice
+          name: produktservice
+          ports:
+            - containerPort: 3000
+          resources: {}
+      restartPolicy: Always
+status: {}
