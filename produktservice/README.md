@@ -27,8 +27,8 @@ Die `docker-compose.yml` kann genutzt werden, um den Lieferantenservice alleine 
 ```
 .
 ├── app.js              - Einstiegspunkt
-├── docker-compose.yml  - 
-├── Dockerfile          - Containerdefinition
+├── docker-compose.yml
+├── Dockerfile
 ├── model.js            - Datenstrukturen
 ├── package.json        - Nötige Abhängigkeiten
 ├── package-lock.json   
@@ -38,3 +38,12 @@ Die `docker-compose.yml` kann genutzt werden, um den Lieferantenservice alleine 
 │   └── style.css
 └── README.md
 ```
+
+## Umgebungsvariablen
+
+MongoDB credentials:
+
+- `MONGO_HOST`: Hostname der MongoDB
+- `MONGO_PORT`: Zu benutzender Port
+- `MONGO_USER`: Username
+- `MONGO_PASS`: Passwort
