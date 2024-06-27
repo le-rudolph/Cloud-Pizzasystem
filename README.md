@@ -12,8 +12,8 @@ Zudem können neue Produkte der Karte hinzugefügt werden.
 - [Lieferantenservice](/lieferantenservice)
 
 Zum Testen ohne Kubernetes steht eine Definition für Docker Compose zur Verfügung.
-Der Bestellservice steht dann unter http://localhost:14621 zur Verfügung,
-der Produktservice unter http://localhost:3000.
+Der Bestellservice steht dann unter [http://localhost:14621](http://localhost:14621) zur Verfügung,
+der Produktservice unter [http://localhost:3000](http://localhost:3000).
 
 - `docker compose up --build`
 
@@ -27,5 +27,5 @@ Die Powerpoint-Präsentation sowie die dokumentierten Sichten finden sich unter 
 
 ## Bildquellenangaben zum Quellcode
 
-Das Hintergrundbild des Bestellservices stammt aus der Wikimedia Commons. 
+Das Hintergrundbild des Bestellservices stammt aus der Wikimedia Commons.
 Das Bild "Pizza-3007395" stammt von Igor Ovsyannykov, und ist gemeinfrei veröffentlicht worden.

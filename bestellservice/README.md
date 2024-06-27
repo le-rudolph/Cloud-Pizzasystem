@@ -8,6 +8,7 @@ der Container besteht letztlich nur aus der erzeugten Binary,
 in der alle Abhängigkeiten und statische Dateien enthalten sind.
 
 Es bestehen folgende Abhängigkeiten zu den anderen Services:
+
 - Vom Produktservice werden beim Seitenaufruf die Produkte per HTTP abgerufen.
 - Bestellungen und deren Status werden in einer MongoDB abgelegt.
 - "Lieferfähige" Bestellungen werden an einer RabbitMQ abgegeben,
@@ -27,7 +28,7 @@ graph LR
 
 ## Quellcodestruktur
 
-```
+```console
 .
 ├── config.go   - Konfiguration aus Umgebungsvariablen
 ├── Dockerfile
@@ -48,8 +49,8 @@ graph LR
 
 ## Umgebungsvariablen
 
-* `QUEUE_URI`: Uri zur RabbitMQ im Format `amqp://nutername:passwort@hostname:port`
-* `DATABASE_URI`: Uri zur MongoDB im Format `mongodb://nutzername:passwort@hostname`
-* `DATABASE_DB`: Collection in der MongoDB
-* `SERVER_ADDRESS`: eigene Adresse des Webservers im Format `ip-adresse:port`, Standardwert ist hier `0.0.0.0:14621`
-* `PRODUCTS_URL`: URL zum Produktservice im Format `http://hostname/endpunkt/`
+- `QUEUE_URI`: Uri zur RabbitMQ im Format `amqp://nutzername:passwort@hostname:port`
+- `DATABASE_URI`: Uri zur MongoDB im Format `mongodb://nutzername:passwort@hostname`
+- `DATABASE_DB`: Collection in der MongoDB
+- `SERVER_ADDRESS`: eigene Adresse des Webservers im Format `ip-adresse:port`, Standardwert ist hier `0.0.0.0:14621`
+- `PRODUCTS_URL`: URL zum Produktservice im Format `http://hostname/endpunkt/`

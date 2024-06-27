@@ -1,7 +1,7 @@
 # Produktservice
 
 Im Produktservice können neue Produkte mit Namen und einem Preis für
-die Größen S, M und L erstellt werden. Der Produktservice ist über dem Port ``3000`` erreichbar. 
+die Größen S, M und L erstellt werden. Der Produktservice ist über dem Port ``3000`` erreichbar.
 Die gespeicherten Produkte können über die URL ``/pizza`` abgefragt werden.
 
 Die `docker-compose.yml` kann genutzt werden, um den Lieferantenservice alleine zu starten.
@@ -24,7 +24,7 @@ Die `docker-compose.yml` kann genutzt werden, um den Lieferantenservice alleine 
 
 ## Quellcodestruktur
 
-```
+```console
 .
 ├── app.js              - Einstiegspunkt
 ├── docker-compose.yml
