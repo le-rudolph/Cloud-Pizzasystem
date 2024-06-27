@@ -23,7 +23,7 @@ In diesem Verzeichnis befindet sich die Terraform-Config, mit der die Infrastruk
 
 ## Setup
 
-Erfordert [AzureCLI](https://learn.microsoft.com/de-de/cli/azure/install-azure-cli) und [Terraform](https://developer.hashicorp.com/terraform/install).
+Erfordert [AzureCLI](https://learn.microsoft.com/de-de/cli/azure/install-azure-cli) und [Terraform](https://developer.hashicorp.com/terraform/install). Für Terraform wird unter Windows die .exe einfach dem PATH hinzugefügt und das Tool dann auf der Konsole aufgerufen.
 
 1. ``az login`` mit Credentials des Azure-Kontos. Die Subscription, unter der die Ressourcen erstellt werden sollen, muss ausgewählt werden.
 2. `az account show` zeigt die aktuelle Subscription an. Ist hier nicht der korrekte Account zu sehen, kann mit `az account set --subscription "<SUBSCRIPTION_ID>"` gewechselt werden. Die ID ist im Azure-Portal zu finden.
@@ -80,6 +80,8 @@ SSH-Befehl z.B.:
 `ssh -i ./ssh/private_key.pem pizza@<PUBLIC_IP>:22`
 
 **Hinweis**: Unter Windows müssen unter Umständen strengere Berechtigungen für ``private_key.pem`` gesetzt werden (Datei -> Eigenschaften -> Sicherheit -> Erweitert -> Vererbung deaktivieren, überflüssige Nutzer entfernen, eigenen Vollzugriff setzen)
+
+Zum Zerstören der Infrastruktur kann der Befehl `terraform destroy` ausgeführt werden.
 
 ## Quellen, Guides, Ressourcen
 
